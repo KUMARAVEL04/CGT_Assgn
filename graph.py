@@ -22,6 +22,8 @@ class GraphApp:
         self.mst_button.pack()
         self.connectivity_button = tk.Button(root, text="Find Edge and Vertex Connectivity", command=self.find_connectivity, state=tk.DISABLED)
         self.connectivity_button.pack()
+        self.k_connectivity_button = tk.Button(root, text="Find K-Connectivity", command=self.find_k_connectivity, state=tk.DISABLED)
+        self.k_connectivity_button.pack()  # New button for K-Connectivity
         self.cutset_button = tk.Button(root, text="Find Fundamental Cutsets", command=self.find_fundamental_cutsets, state=tk.DISABLED)
         self.cutset_button.pack()
         self.cut_vertices_button = tk.Button(root, text="Find Cut Vertices", command=self.find_cut_vertices, state=tk.DISABLED)
@@ -92,6 +94,7 @@ class GraphApp:
         self.mst_button.config(state=tk.NORMAL)
         self.euler_button.config(state=tk.NORMAL)
         self.connectivity_button.config(state=tk.NORMAL)
+        self.k_connectivity_button.config(state=tk.NORMAL)  # Enable K-connectivity button
 
         self.cutset_button.config(state=tk.DISABLED)
         self.cut_vertices_button.config(state=tk.DISABLED)
@@ -129,7 +132,7 @@ class GraphApp:
             circuit_edges = [(circuit[i][0], circuit[i][1]) for i in range(len(circuit))]
             messagebox.showinfo("Euler Circuit", f"Euler Circuit: {circuit_edges}")
             self.visualize_euler(circuit_edges, is_circuit=True)
-            
+
     def find_shortest_path(self):
         start_node = simpledialog.askinteger("Input", "Enter the starting vertex:")
         if start_node not in self.graph.nodes:
@@ -163,6 +166,14 @@ class GraphApp:
                             f"Vertex Connectivity: {vertex_connectivity}\n"
                             f"The graph is {vertex_connectivity}-connected.")
 
+    def find_k_connectivity(self):
+        if self.graph is None:
+            messagebox.showerror("Error", "Graph has not been generated.")
+            return
+        
+        k_connectivity = nx.node_connectivity(self.graph)
+        messagebox.showinfo("K-Connectivity", f"The graph is {k_connectivity}-connected.")
+
     def find_fundamental_cutsets(self):
         if self.mst is None:
             messagebox.showerror("Error", "Minimum Spanning Tree not generated.")
@@ -176,7 +187,7 @@ class GraphApp:
             cutsets.append(list(cutset))
 
         messagebox.showinfo("Fundamental Cutsets", f"Fundamental Cutsets: {cutsets}")
-    
+
     def find_cut_vertices(self):
         if self.mst is None:
             messagebox.showerror("Error", "Minimum Spanning Tree not generated.")
