@@ -15,3 +15,5 @@ algorithm. Find the fundamental cutsets and fundamental circuits of the graph wi
 respect to this minimum spanning tree.
 5. Find the edge connectivity and vertex connectivity of this graph. Find the value of K for
 which the graph is K-connected.
+
+Minimum Spanning tree needs to be generated before finding Fundamental cut sets and cut vertices, initial launch might require minimum spanning tree to be generated twice to enable the buttons
